@@ -1,47 +1,62 @@
-import React, { Component } from 'react';
+import React, { useState } from 'react';
 
-export class PollDisplay extends Component {
-     choices=[
-        { "id": 1, "label": "JavaScript", "votes": 0 },
-        { "id": 2, "label": "Python", "votes": 0 },
-        { "id": 3, "label": "Java", "votes": 0 },
-        { "id": 4, "label": "C#", "votes": 0 }
-      ]
-  constructor(props) {
-    super(props);
-    this.state = {
-      language: 'react'
-    };
-  }
-
-  handleChange = (event) => {
-    const { name, value } = event.target;
-    this.setState({
-      [name]: value
-    });
+function PollDisplay() {
+  const obj = {
+    question: "What is your favorite programming language?",
+    choices: [
+      { id: 1, label: "JavaScript", votes: 0 },
+      { id: 2, label: "Python", votes: 0 },
+      { id: 3, label: "Java", votes: 0 },
+      { id: 4, label: "C#", votes: 0 }
+    ]
   };
 
-  submit = (event) => {
-    event.preventDefault();
-    alert('your vote: ' + this.state.language);
+  const { question, choices } = obj;
+  const [selectedOption, setSelectedOption] = useState(null);
+
+  const handleOptionChange = (optionId) => {
+    setSelectedOption(optionId);
   };
 
-  render() {
-    return (
-      <form onSubmit={this.submit}>
-       
-        <div>
-          <select name='skill' value={this.state.language} onChange={this.handleChange}>
-            <option value='JavaScript'>React</option>
-            <option value='Python'>Vue</option>
-            <option value='java'>Next.js</option>
-            <option value='c#'>Next.js</option>
-          </select>
-        </div>
-        <button type='submit'>Vote</button>
-      </form>
-    );
-  }
+  const handleVote = () => {
+    if (selectedOption !== null) {
+      const updatedChoices = choices.map(choice => {
+        if (choice.id === selectedOption) {
+          return { ...choice, votes: choice.votes + 1 };
+        }
+        return choice;
+      });
+      console.log('Updated choices :', updatedChoices);
+    } else {
+      console.log('nothing selected rehman');
+    }
+  };
+
+  return (
+    <div>
+      <h2>Poll Display</h2>
+      <label>{question}</label>
+      <div>
+        {choices.map((choice) => (
+          <div key={choice.id}>
+            <label>
+              <input
+                type="radio"
+                name="option"
+                value={choice.id}
+                checked={selectedOption === choice.id}
+                onChange={() => handleOptionChange(choice.id)}
+              />
+              {choice.label}
+            </label>
+          </div>
+        ))}
+      </div>
+      <button onClick={handleVote} disabled={selectedOption === null}>
+        Vote
+      </button>
+    </div>
+  );
 }
 
 export default PollDisplay;
