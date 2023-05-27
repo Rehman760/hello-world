@@ -1,37 +1,7 @@
-import React, { useState } from 'react';
+import React from 'react'
 
-function PollDisplay() {
-  const obj = {
-    question: "What is your favorite programming language?",
-    choices: [
-      { id: 1, label: "JavaScript", votes: 0 },
-      { id: 2, label: "Python", votes: 0 },
-      { id: 3, label: "Java", votes: 0 },
-      { id: 4, label: "C#", votes: 0 }
-    ]
-  };
-
-  const { question, choices } = obj;
-  const [selectedOption, setSelectedOption] = useState(null);
-
-  const handleOptionChange = (optionId) => {
-    setSelectedOption(optionId);
-  };
-
-  const handleVote = () => {
-    if (selectedOption !== null) {
-      const updatedChoices = choices.map(choice => {
-        if (choice.id === selectedOption) {
-          return { ...choice, votes: choice.votes + 1 };
-        }
-        return choice;
-      });
-      console.log('Updated choices :', updatedChoices);
-    } else {
-      console.log('nothing selected rehman');
-    }
-  };
-
+const PollDisplay = () => {
+    const {question,choices,selectedOption,handleOptionChange,handleVote} = this.props
   return (
     <div>
       <h2>Poll Display</h2>
@@ -56,7 +26,7 @@ function PollDisplay() {
         Vote
       </button>
     </div>
-  );
+  )
 }
 
-export default PollDisplay;
+export default PollDisplay
